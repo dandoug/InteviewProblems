@@ -3,72 +3,38 @@ package org.ken.sorting;
 import java.util.HashSet;
 import java.util.Set;
 
-class Dog implements Comparable<Dog> {
+import org.westminsterkenel.IDog;
+
+class Dog implements IDog {
 	private String name;
-	private Set<Dog> dogsItWillBite = new HashSet<Dog>();
-	private Set<Dog> dogsThatWillBiteIt = new HashSet<Dog>();
+	private Set<IDog> dogsItWillBite = new HashSet<>();
 
 	public Dog(String name)
 	{
 		this.name = name;
 	}
 	
+	@Override
 	public String getName()
 	{
 		return name;
 	}
 	
-	void bites(Dog anotherDog)
+	@Override
+	public void bites(IDog anotherDog)
 	{
-		dogsItWillBite.add(anotherDog);
+		dogsItWillBite.add((Dog)anotherDog);
 	}
 	
-	void bittenBy(Dog anotherDog)
-	{
-		dogsThatWillBiteIt.add(anotherDog);
-	}
-
-    boolean canBite(Dog anotherDog)
-    {
-	   return dogsItWillBite.contains(anotherDog);
-    }
-	
-	Set<Dog> dogsBittenByThisDog()
+	@Override
+	public Set<IDog> dogsBittenByThisDog()
 	{
 		return dogsItWillBite;
 	}
-	
-	Set<Dog> dogsThatWillBiteThisDog()
-	{
-		return dogsThatWillBiteIt;
-	}
-	
-	boolean canBeBittenByAnotherDogOrItsFollowers(Dog anotherDog)
-	{
-		if(anotherDog.canBite(this)) 
-		{
-			return true;
-		} 
-		else
-		{
-			for(Dog weakerDog : anotherDog.dogsBittenByThisDog()) {
-			  	if(this.canBeBittenByAnotherDogOrItsFollowers(weakerDog))
-			  	{
-			  		return true;
-			  	}	
-			}
-		}	
-		return false;
-	}
-	
+		
 	@Override
 	public String toString() {
 		return name;
-	}
-
-	@Override
-	public int compareTo(Dog o) {
-		return name.compareTo(o.name);
 	}
 
 }
