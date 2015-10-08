@@ -1,6 +1,7 @@
-package org.ken.sorting;
+package com.ebay.dan.sorting;
 
-import static org.ken.sorting.DogSortUtility.topologicalSort;
+import static com.ebay.dan.sorting.DogSortUtility.topologicalSort;
+import static org.junit.Assert.assertArrayEquals;
 import static org.westminsterkenel.OutputUtilities.writeDotFile;
 
 import java.util.Arrays;
@@ -12,9 +13,8 @@ import org.westminsterkenel.IDog;
 
 import com.ebay.interview.questions.util.DogGenerator;
 
-public class DogArrangingTest {
+public class DogSortUtilityTest {
 
-	
 	@Test
 	public void test() {
 		Dog i = new Dog("i");
@@ -22,13 +22,14 @@ public class DogArrangingTest {
 		Dog k = new Dog("k");
 		i.bites(j);
 		j.bites(k);
-		
-		List<Dog> dogs = Arrays.asList(new Dog[]{k,j,i});
+
+		List<Dog> dogs = Arrays.asList(new Dog[] { k, j, i });
 		List<IDog> sorted = topologicalSort(dogs);
-		
-		System.out.println("Sorted:"+ sorted);
-		Assert.assertArrayEquals(new Dog[]{i,j,k}, sorted.toArray(new Dog[sorted.size()])) ;
+
+		System.out.println("Sorted:" + sorted);
+		assertArrayEquals(new Dog[] { i, j, k }, sorted.toArray(new Dog[sorted.size()]));
 	}
+	
 
 	@Test(expected=IllegalStateException.class)
 	public void testWithCycle() {
@@ -41,19 +42,14 @@ public class DogArrangingTest {
 		
 		List<Dog> dogs = Arrays.asList(new Dog[]{k,j,i});
 		topologicalSort(dogs);
-	}
-
-	//Test with ramdom data
-	//Generate dogs
-	//For each dog, randomly find up to half of other dogs to dominate (those that it could bite). 
-	//The logic needs to ensure the dominance relationships do not end up in a loop
-	//This test method does not 
-	@SuppressWarnings({ "rawtypes", "unchecked" })
+	}	
+	
 	@Test
 	public void testWithRandomDataAndVisualization() {
 		List<IDog> dogs = DogGenerator.buildRandomizedInput(Dog.class);
 		
 		//Topological sort
+		@SuppressWarnings({ "unchecked", "rawtypes" })
 		List<IDog> sortedDogs = topologicalSort((List)dogs);
 		System.out.println("testWithRandomDataAndVisualization sorted:"+ dogs);
 
@@ -69,8 +65,8 @@ public class DogArrangingTest {
 			}
 		}
 		
-		writeDotFile(dogs, sortedDogs, "ken-arrangedDogsGraphComplex.dot");
-	}
+		writeDotFile(dogs, sortedDogs, "dan-arrangedDogsGraphComplex.dot");
+	}	
 
 	
 }

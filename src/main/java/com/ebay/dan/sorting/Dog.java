@@ -1,5 +1,6 @@
-package org.ken.sorting;
+package com.ebay.dan.sorting;
 
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -26,13 +27,13 @@ public class Dog implements IDog {
 		if (!(anotherDog instanceof Dog)) {
 			throw new IllegalArgumentException("only take Dog");
 		}
-		dogsItWillBite.add(anotherDog);
+		dogsItWillBite.add((Dog)anotherDog);
 	}
 	
 	@Override
 	public Set<IDog> dogsBittenByThisDog()
 	{
-		return dogsItWillBite;
+		return Collections.unmodifiableSet(dogsItWillBite);
 	}
 		
 	@Override
