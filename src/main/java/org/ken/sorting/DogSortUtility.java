@@ -1,4 +1,4 @@
-package org.ken.sorting.tests;
+package org.ken.sorting;
 
 import java.io.BufferedWriter;
 import java.io.File;

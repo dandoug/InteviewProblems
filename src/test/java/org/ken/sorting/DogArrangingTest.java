@@ -1,7 +1,7 @@
-package org.ken.sorting.tests;
+package org.ken.sorting;
 
-import static org.ken.sorting.tests.DogSortUtility.topologicalSort;
-import static org.ken.sorting.tests.DogSortUtility.writeDotFile;
+import static org.ken.sorting.DogSortUtility.topologicalSort;
+import static org.ken.sorting.DogSortUtility.writeDotFile;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -11,6 +11,7 @@ import java.util.Random;
 
 import org.junit.Assert;
 import org.junit.Test;
+import org.ken.sorting.Dog;
 
 public class DogArrangingTest {
 
