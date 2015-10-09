@@ -8,20 +8,28 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import org.westminsterkenel.DogSorter;
 import org.westminsterkenel.IDog;
 
 import com.rits.cloning.Cloner;
 
-public class DogSortUtility {
+public class DogSortUtility implements DogSorter {
 	
 	private static Cloner cloner=new Cloner();
 
-	public static List<IDog> topologicalSort(List<Dog> inputDogs)
+	private static DogSortUtility INSTANCE = new DogSortUtility();
+	
+	public static DogSorter getInstance() {
+		return INSTANCE;
+	}
+	
+	
+	public List<IDog> topologicalSort(List<IDog> inputDogs)
 	{
-		List<Dog> clonedDogs = cloneDogs(inputDogs);//Clone the dogs to preserve input and output data
+		List<IDog> clonedDogs = cloneDogs(inputDogs);//Clone the dogs to preserve input and output data
 		List<IDog> sorted = new ArrayList<>();
 		Deque<IDog> dominantDogs = new LinkedList<>();//Dogs with no other dogs that could bite them
-		for (Dog dog : clonedDogs) {
+		for (IDog dog : clonedDogs) {
 			if(dogsThatWillBiteThisDog(clonedDogs,dog).isEmpty())
 			{
 				dominantDogs.add(dog);
@@ -51,7 +59,7 @@ public class DogSortUtility {
 
 		// Did all the dogs have their bites/bitenBy relationships removed?  If not, then 
 		// there were some does we could not add and that indicates a cycle
-		for (Dog dog : clonedDogs) {
+		for (IDog dog : clonedDogs) {
 			// Any dogs left sould be "neutral" dogs
 			if(!dog.dogsBittenByThisDog().isEmpty() || !dogsThatWillBiteThisDog(clonedDogs,dog).isEmpty())
 			{
@@ -63,19 +71,26 @@ public class DogSortUtility {
 		return sorted;
 	}
 
-	private static List<Dog> cloneDogs(List<Dog> dogs)
+	private static List<IDog> cloneDogs(List<IDog> dogs)
 	{
 		return cloner.deepClone(dogs);
 	}
 
-	private static Dog findDogByName(List<Dog> dogs, String name)
+	private static IDog findDogByName(List<IDog> dogs, String name)
 	{
 		return dogs.stream().filter(dog -> dog.getName().equals(name)).findFirst().get();
 	}	
 
-	private static Set<Dog> dogsThatWillBiteThisDog(List<Dog> dogs, Dog dog)
+	private static Set<IDog> dogsThatWillBiteThisDog(List<IDog> dogs, IDog dog)
 	{
 		return dogs.stream().filter(d -> d.dogsBittenByThisDog().contains(dog)).collect(Collectors.toSet());
 	}	
-	
+
+	private DogSortUtility() {}
+
+
+	@Override
+	public String getAlgorithm() {
+		return "ken";
+	}
 }

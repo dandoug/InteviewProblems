@@ -9,18 +9,26 @@ import org.jgrapht.alg.CycleDetector;
 import org.jgrapht.graph.DefaultDirectedGraph;
 import org.jgrapht.graph.DefaultEdge;
 import org.jgrapht.traverse.TopologicalOrderIterator;
+import org.westminsterkenel.DogSorter;
 import org.westminsterkenel.IDog;
 
 
-public class DogSortUtility {
+public class DogSortUtility implements DogSorter {
 	
-
+	private static DogSortUtility INSTANCE = new DogSortUtility();
+	
+	public static DogSorter getInstance() {
+		return INSTANCE;
+	}
+	
+	
 	/**
 	 * Refer to http://www.geeksforgeeks.org/topological-sorting/
 	 * @param inputDogs
 	 * @return
 	 */
-	public static List<IDog> topologicalSort(List<Dog> inputDogs)
+	@Override
+	public List<IDog> topologicalSort(List<IDog> inputDogs)
 	{
 		// Build graph from input.
 		DirectedGraph<IDog, DefaultEdge> g = 
@@ -55,4 +63,11 @@ public class DogSortUtility {
 		return result;
 	}
 
+	private DogSortUtility() {}
+
+
+	@Override
+	public String getAlgorithm() {
+		return "dan";
+	}
 }
